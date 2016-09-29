@@ -32,6 +32,7 @@ ListNode* reverseList(ListNode* head)
         pre = cur;
         cur = nt;
     }
+
     return pre;
 }
 
@@ -46,6 +47,7 @@ ListNode* createList(int n)
         cur->next = head->next;
         head->next = cur;
     }
+
     return head;
 }
 
@@ -59,8 +61,10 @@ ListNode* createIncList(int n)
         cur->next = head->next;
         head->next = cur;
     }
+
     return head;
 }
+
 // * show the element of singly linked list;
 void  showList(ListNode* head)
 {
@@ -69,7 +73,33 @@ void  showList(ListNode* head)
         cout << head->val << " ";
         head = head->next;
     }
+
     cout << endl;
+}
+
+// * find the last kth node in the linked List
+ListNode* findLastKthNode(ListNode* head, int k)
+{
+    int cnt = 0;
+    ListNode* cur = head;
+    while(cur)
+    {
+        cnt++;
+        if(cnt == k)
+        break;
+        cur = cur->next;
+    }
+
+    if(cnt != k)
+    return NULL;
+
+    while(cur->next)
+    {
+        head = head->next;
+        cur = cur->next;
+    }
+
+    return head;
 }
 
 // * Delete Node(except the tail) in a Linked List 
@@ -179,6 +209,57 @@ ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
     return head->next;
 }
 
+// * Swap Nodes in Pairs
+// * For example,Given 1->2->3->4, 
+// * you should return the list as 2->1->4->3.
+ListNode* swapPairs(ListNode* head) 
+{
+    if(head == NULL)
+    return NULL;
+
+    ListNode* pnode = new ListNode(0);
+    pnode->next = head;
+    ListNode* pre = pnode;
+    ListNode* cur = head;
+    ListNode* nt = head->next;
+    ListNode* tmp = NULL;
+
+    while(cur && nt)
+    {
+        tmp = nt->next;
+        pre->next = nt;
+        nt->next = cur;
+        pre = cur;
+        cur = tmp;
+        
+        if(cur == NULL)
+        break;
+
+        nt = cur->next;
+    }
+
+    if(cur)
+    {
+        pre->next = cur;
+    }
+    else
+    {
+        pre->next = NULL;
+    }
+
+    return pnode->next;
+}
+
+// * reverse the nodes of a linked list k at a time
+// * For example,
+// * Given this linked list: 1->2->3->4->5
+// * For k = 2, you should return: 2->1->4->3->5
+// * For k = 3, you should return: 3->2->1->4->5
+ListNode* reverseKGroup(ListNode* head, int k) 
+{
+    return NULL;
+}
+
 int main()
 {
     int n;
@@ -189,6 +270,10 @@ int main()
     cout << "output the current Linked list" << endl;
     showList(head);
     
+    head = swapPairs(head);
+    cout << "output the linked list which swaps every two adjacent nodes:" << endl;
+    showList(head);
+
     head = reverseList(head);
     cout << "output the reverse List:" << endl;
     showList(head);
@@ -237,6 +322,11 @@ int main()
     head = mergeTwoLists(head1, head2);
     cout << "output a new list which merges two sorted linked lists" << endl; 
     showList(head);
+
+    cout << " find the last third element in the linked list" << endl;
+    cur = findLastKthNode(head, 3);
+    if(cur)
+    cout << cur->val << endl; 
 
     return 0;
 }
