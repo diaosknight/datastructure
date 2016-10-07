@@ -19,15 +19,12 @@ ListNode* reverseList(ListNode* head)
 
     ListNode* pre = head;
     ListNode* cur = head->next;
+    pre->next = NULL;
     ListNode* nt = NULL;
-
+    
     while(cur)
     {
         nt = cur->next;
-        if(pre == head)
-        {
-            pre->next = NULL;
-        }
         cur->next = pre;
         pre = cur;
         cur = nt;
