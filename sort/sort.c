@@ -27,15 +27,13 @@ void bubbleSort(int a[], int length)
     bool flag = false;
     for(int i = length - 1; i > 0; i--)
     {
-        flag = false;
+        flag = true;
+
         for(int j = 0; j < i; j++)
         if(a[j] > a[j + 1])
         {
             flag = false;
-            int tmp = a[j + 1];
-            a[j + 1] = a[j];
-            a[i] = tmp;
-        }
+        }   swap(a[j], a[j+1]);
 
         if(flag)
         return;
@@ -133,9 +131,7 @@ void minHeapSort(int a[], int length)
     int tmp;
     for(int i = length - 1; i > 0; i--)
     {
-        tmp = a[i];
-        a[i] = tmp;
-        a[0] = tmp;
+        swap(a[0], a[i]);
         minHeapFixdown(a, 0, i);
     }
 }
