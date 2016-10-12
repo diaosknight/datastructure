@@ -37,13 +37,17 @@ TreeNode* searchBST(TreeNode* head, int value)
     return head;
 
     if(head->val > value)
-    searchBST(head->left, value);
+    {
+        return searchBST(head->left, value);
+    }
     else
-    searchBST(head->right, value);   
+    {
+        return searchBST(head->right, value);  
+    }
 }
 
 TreeNode* insertBST(TreeNode* head, int value)
-{
+{ 
     if(head == NULL)
     {
         head = new TreeNode(value);
@@ -51,9 +55,13 @@ TreeNode* insertBST(TreeNode* head, int value)
     }
 
     if(head->val > value)
-    head->left = insertBST(head->left, value);
+    {
+        head->left = insertBST(head->left, value);
+    }
     else
-    head->right = insertBST(head->right, value);
+    {
+        head->right = insertBST(head->right, value);
+    }
 
     return head;
 }
@@ -97,10 +105,81 @@ void insertBST2(TreeNode* head, int value)
     }
 }
 
-TreeNode* deleteBST(TreeNode* head, int value)
+void deleteBST(TreeNode* head, int value)
 {
-    TreeNode* cur = searchBST(head, value);
+    bool flag = false;
+    TreeNode* pre = new TreeNode(0);
+    pre->left = head;
+    TreeNode* cur = head;
+    
+    while(!flag && cur)
+    {
+        if(cur->val == value)
+        {
+            flag = true;
+        }
+        else if(cur->val > value)
+        {
+            pre = cur;
+            cur = cur->left;
+        }
+        else
+        {
+            pre = cur;
+            cur = cur->right;
+        }
+    }
+    
+    if(flag == false)
+    return;
 
+    if(cur->left == NULL)
+    {
+        if(pre->left == cur)
+        {
+            pre->left = cur->right;
+        }
+        else
+        {
+            pre->right = cur->right;
+        }
+
+        break;
+    }
+
+    if(cur->right == NULL)
+    {
+        if(pre->left == cur)
+        {
+            pre->left = cur->left;
+        }
+        else
+        {
+            pre->right = cur->right;
+        }
+
+        break;
+    }
+
+    TreeNode* t = cur;
+    TreeNode* s = cur->left;
+    
+    while(s->rchild)
+    {
+        t = s;
+        s = s->rchild;
+    }
+
+    cur->val = s->val;
+   
+   if(s == cur->left)
+    {
+        cur->left = s->left;
+    }
+    else
+    {
+        t->left = s->left;
+    }
     if(cur == NULL)
     return NULL;
     
